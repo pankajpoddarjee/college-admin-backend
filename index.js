@@ -10,14 +10,16 @@ const PORT = process.env.PORT || 4000;
 
 require("./config");
 
-const User = require("./User");
-const College = require("./College");
+const User = require("./models/User");
+const College = require("./models/College");
+const collegeRoutes = require('./routes/College');
+const userRoutes = require('./routes/User');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-
+app.use('/college', collegeRoutes);
+app.use('/user', userRoutes);
 // Get All User Data
 app.get('/',async(req,res)=>{
     try {
@@ -40,27 +42,7 @@ app.get('/',async(req,res)=>{
     }
 });
 
-app.get('/college-list',async(req,res, next)=>{
-    try {
-        const page = parseInt(req.query.page);
-        const size = parseInt(req.query.size);
 
-        const skip = (page -1) * size;
-
-        const total = await College.countDocuments();
-        const collegeData = await College.find().skip(skip).limit(size);
-
-        res.json({
-            records: collegeData,
-            total,
-            page, 
-            size
-        });
-    } catch(error) {
-        console.log(error)
-        res.status(400).json(error)
-    }
-});
 
 app.listen(PORT,()=>{
     console.log("server connected with port : "+PORT);
@@ -176,62 +158,26 @@ app.post('/login',async(req,res)=>{
     
 });
 
-app.post('/college',async(req,res)=>{
-    console.log(req);
-    if(req.body.college_name && req.body.address){
-        const data = req.body;
-        const doc = {
-            
-            college_name: data.college_name, 
-            short_name: data.short_name, 
-            college_code: data.college_code, 
-            other_name: data.other_name, 
-            eshtablish: data.eshtablish, 
-            college_type: data.college_type, 
-            undertaking: data.undertaking, 
-            affiliation: data.affiliation, 
-            accreditation: data.accreditation, 
-            principle: data.principle,
 
-            address: data.address, 
-            landmark: data.landmark, 
-            city: data.city, 
-            district: data.district, 
-            state: data.state, 
-            country: data.country, 
 
-            email: data.email, 
-            email2: data.email2,
-            phone: data.phone,
-            website_url: data.website_url, 
-            website_display: data.website_display, 
-            
-            course_type: data.course_type
-        };
-        try {
-            let college_ins = new College(doc);
-            let result = await college_ins.save();
-            if(result){
-                res.send({
-                success: true,
-                message: "College insert successfully",
-                users: result
-                });
-            }else{
-                res.send({
-                success: false,
-                message: "College data not inserted"
-                });
-            }
-        } catch(error) {
-            console.log(error)
-            res.status(400).json(error)
-        }
-    }else{
-        res.send({
-            success: false,
-            message: "Please input required field"
+app.get('/notice-list',async(req,res, next)=>{
+    try {
+        const page = parseInt(req.query.page);
+        const size = parseInt(req.query.size);
+
+        const skip = (page -1) * size;
+
+        const total = await College.countDocuments();
+        const collegeData = await College.find().skip(skip).limit(size);
+
+        res.json({
+            records: collegeData,
+            total,
+            page, 
+            size
         });
+    } catch(error) {
+        console.log(error)
+        res.status(400).json(error)
     }
-    
 });
