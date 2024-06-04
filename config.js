@@ -8,8 +8,7 @@ const mongoose = require('mongoose');
 // connection.on('connected', () => {
 //   console.log('MongoDB database connection established successfully');
 // });
-
-mongoose.connect('mongodb://localhost:27017/collegeadmission')
+mongoose.connect('mongodb://0.0.0.0:27017/collegeadmission')
 
 .then(() => console.log('Connected Successfully'))
 

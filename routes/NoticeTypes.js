@@ -1,15 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var CourseType = require('../models/CourseType');
+var NoticeType = require('../models/NoticeType');
 
 /* GET ALL PRODUCTS */
 router.get('/', async function(req, res, next) {   debugger;
     try {
-        const CourseTypeData = await CourseType.find({});
+        const result = await NoticeType.find({});
         
         res.json({
-            records: CourseTypeData
+            records: result
         });
     } catch(error) {
         console.log(error)

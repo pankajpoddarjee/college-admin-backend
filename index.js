@@ -15,13 +15,18 @@ const College = require("./models/College");
 const collegeRoutes = require('./routes/College');
 const userRoutes = require('./routes/User');
 const courseTypeRoutes = require('./routes/CourseType');
+const noticeRoutes = require('./routes/Notice');
+const noticeTypeRoutes = require('./routes/NoticeTypes');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use('/course-type', courseTypeRoutes);
+app.use('/college-notice', noticeRoutes);
 app.use('/college', collegeRoutes);
 app.use('/user', userRoutes);
+app.use('/course-type', courseTypeRoutes);
+app.use('/notice-type', noticeTypeRoutes);
+
 
 // Get All User Data
 app.get('/',async(req,res)=>{

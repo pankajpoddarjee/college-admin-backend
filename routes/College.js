@@ -85,4 +85,18 @@ router.post('/',async function(req, res, next) {
     }
 });
 
+/* GET ALL PRODUCTS */
+router.get('/all', async function(req, res, next) {   
+    try { //alert("sdsd");
+        const result = await College.find({});
+
+        res.json({
+            records: result
+        });
+    } catch(error) {
+        console.log(error)
+        res.status(400).json(error)
+    }
+});
+
 module.exports = router;
